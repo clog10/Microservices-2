@@ -1,4 +1,4 @@
-package com.paymentchain.customer.entities;
+package com.paymentchain.product.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,16 +14,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String code;
-    private String lban;
-    private String names;
-    private String surname;
-    private String phone;
-    private String address;
+    private String name;
 
 }
