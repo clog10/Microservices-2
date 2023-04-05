@@ -1,6 +1,7 @@
 package com.paymentchain.customer.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,23 +31,34 @@ public class CustomerRestController {
 
     @GetMapping("/{id}")
     public Customer get(@PathVariable Long id) {
-        return null;
+        Optional<Customer> find = customerRepository.findById(id);
+        Customer found = new Customer();
+        if (find.isPresent()) {
+            found = find.get();
+        }
+        return found;
     }
 
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Customer input) {
+        input.getProducts().forEach(producto -> producto.setCustomer(input));
         Customer save = customerRepository.save(input);
         return ResponseEntity.ok(save);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> put(@PathVariable Long id, @RequestBody Customer input) {
-        return null;
+        Customer save = customerRepository.save(input);
+        return ResponseEntity.ok(save);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        return null;
+        Optional<Customer> find = customerRepository.findById(id);
+        if (find.isPresent()) {
+            customerRepository.delete(find.get());
+        }
+        return ResponseEntity.ok().build();
     }
 
 }
