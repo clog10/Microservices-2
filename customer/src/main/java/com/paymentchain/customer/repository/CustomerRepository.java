@@ -6,5 +6,7 @@ import com.paymentchain.customer.entities.Customer;
 
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-    
+
+    public Customer findByCode(String code);
+
 }
