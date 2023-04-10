@@ -97,13 +97,20 @@ public class CustomerRestController {
 
     @GetMapping("/full")
     public Customer getByCode(@RequestParam String code) {
-        Customer find = customerRepository.findByCode(code);
-        List<CustomerProduct> products = find.getProducts();
-        products.forEach(product -> {
-            String productName = getProductName(product.getId());
-            product.setProductName(productName);
+        Customer customer = customerRepository.findByCode(code);
+        List<CustomerProduct> products = customer.getProducts();
+
+        // for each product find it name
+        products.forEach(x -> {
+            String productName = getProductName(x.getId());
+            x.setProductName(productName);
         });
-        return find;
+
+        // find all transactions that belong this account number
+        List<?> transactions = getTransactions(customer.getIban());
+        customer.setTransactions(transactions);
+        return customer;
+
     }
 
     private String getProductName(Long id) {
@@ -116,6 +123,21 @@ public class CustomerRestController {
                 .retrieve().bodyToMono(JsonNode.class).block();
         String name = block.get("name").asText();
         return name;
+    }
+
+    private List<?> getTransactions(String iban) {
+        WebClient build = webClientBuilder.clientConnector(new ReactorClientHttpConnector(client))
+                .baseUrl("http://localhost:8082/transaction")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        List<?> transactions = build.method(HttpMethod.GET).uri(uriBuilder -> uriBuilder
+                .path("/customer/transactions")
+                .queryParam("ibanAccount", iban)
+                .build())
+                .retrieve().bodyToFlux(Object.class).collectList().block();
+
+        return transactions;
     }
 
 }

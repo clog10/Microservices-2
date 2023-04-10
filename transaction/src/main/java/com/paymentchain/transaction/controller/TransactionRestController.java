@@ -68,7 +68,7 @@ public class TransactionRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable long id) {
         Optional<Transaction> findById = transactionRepository.findById(id);
-        if (findById.get() != null) {
+        if (findById.isPresent()) {
             transactionRepository.delete(findById.get());
         }
         return ResponseEntity.ok().build();
