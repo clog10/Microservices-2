@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -59,25 +60,27 @@ public class CustomerRestController {
             });
 
     @GetMapping()
-    public List<Customer> list() {
-        return customerRepository.findAll();
+    public ResponseEntity<List<Customer>> list() {
+        List<Customer> findAll = customerRepository.findAll();
+        if (findAll == null || findAll.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(findAll);
+        }
     }
 
     @GetMapping("/{id}")
-    public Customer get(@PathVariable Long id) {
-        Optional<Customer> find = customerRepository.findById(id);
-        Customer found = new Customer();
-        if (find.isPresent()) {
-            found = find.get();
-        }
-        return found;
+    public ResponseEntity<Customer> get(@PathVariable Long id) {
+        return bt.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Customer input) {
         input.getProducts().forEach(producto -> producto.setCustomer(input));
         Customer save = customerRepository.save(input);
-        return ResponseEntity.ok(save);
+        return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
