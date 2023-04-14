@@ -1,4 +1,9 @@
 /Users/carlosdejesusgutierrezloaeza/Documents/Micros-2/billing/src/main/java/com/paymentchain/billing/InvoiceApplication.java
+/Users/carlosdejesusgutierrezloaeza/Documents/Micros-2/billing/src/main/java/com/paymentchain/billing/config/MapStructConfig.java
+/Users/carlosdejesusgutierrezloaeza/Documents/Micros-2/billing/src/main/java/com/paymentchain/billing/common/InvoiceRequestMapper.java
+/Users/carlosdejesusgutierrezloaeza/Documents/Micros-2/billing/src/main/java/com/paymentchain/billing/common/InvoiceResponseMapper.java
 /Users/carlosdejesusgutierrezloaeza/Documents/Micros-2/billing/src/main/java/com/paymentchain/billing/controller/InvoiceRestController.java
+/Users/carlosdejesusgutierrezloaeza/Documents/Micros-2/billing/src/main/java/com/paymentchain/billing/dto/InvoiceResponse.java
+/Users/carlosdejesusgutierrezloaeza/Documents/Micros-2/billing/src/main/java/com/paymentchain/billing/dto/InvoiceRequest.java
 /Users/carlosdejesusgutierrezloaeza/Documents/Micros-2/billing/src/main/java/com/paymentchain/billing/respository/InvoiceRepository.java
 /Users/carlosdejesusgutierrezloaeza/Documents/Micros-2/billing/src/main/java/com/paymentchain/billing/entities/Invoice.java
